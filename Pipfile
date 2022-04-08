@@ -12,6 +12,7 @@ selenium = "<4"
 [scripts]
 runserver = "python manage.py runserver"
 functional_tests = "python functional_tests.py"
+django_tests = "python manage.py test"
 
 [requires]
 python_version = "3.9"
