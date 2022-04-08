@@ -1,0 +1,17 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "<1.12"
+selenium = "<4"
+
+[dev-packages]
+
+[scripts]
+runserver = "python manage.py runserver"
+functional_tests = "python functional_tests.py"
+
+[requires]
+python_version = "3.9"
