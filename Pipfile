@@ -8,11 +8,15 @@ django = "<1.12"
 selenium = "<4"
 
 [dev-packages]
+pytest = "*"
+pytest-django = "*"
+django-test-without-migrations = "*"
 
 [scripts]
 runserver = "python manage.py runserver"
 functional_tests = "python functional_tests.py"
 django_tests = "python manage.py test"
+django_tests_nomigrations = "python manage.py test --nomigrations"
 
 [requires]
 python_version = "3.9"
