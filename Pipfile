@@ -14,9 +14,8 @@ django-test-without-migrations = "*"
 
 [scripts]
 runserver = "python manage.py runserver"
-functional_tests = "python functional_tests.py"
-django_tests = "python manage.py test"
-django_tests_nomigrations = "python manage.py test --nomigrations"
+functional_tests = "pytest functional_tests"
+django_tests = "pytest apps"
 
 [requires]
 python_version = "3.9"
