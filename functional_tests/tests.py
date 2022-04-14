@@ -1,10 +1,11 @@
 import time
-import unittest
 
 from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import WebDriverException
 
+MAX_WAIT = 10
 
 class NewVistorTest(LiveServerTestCase):
 
@@ -14,10 +15,18 @@ class NewVistorTest(LiveServerTestCase):
     def tearDown(self) -> None:
         self.browser.quit()
 
-    def check_for_row_in_list_table(self, row_text):
-        table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_tag_name('tr')
-        self.assertIn(row_text, [row.text for row in rows])
+    def wait_for_row_in_list_table(self, row_text):
+        start_time = time.time()
+        while True:
+            try:
+                table = self.browser.find_element_by_id('id_list_table')
+                rows = table.find_elements_by_tag_name('tr')
+                self.assertIn(row_text, [row.text for row in rows])
+                return
+            except (AssertionError, WebDriverException) as err:
+                if time.time() - start_time > MAX_WAIT:
+                    raise err
+                time.sleep(0.5)
 
     def test_can_start_a_list_and_retrieve_it_later(self):
         # Edith ouviu falar de uma nova aplicação online interessante
@@ -44,11 +53,8 @@ class NewVistorTest(LiveServerTestCase):
         # Quando ela tecla enter, a pagina é atualizada, e agora a página lista
         # "1: Buy peacock feathers" como um item em uma lista de tarefas
         inputbox.send_keys(Keys.ENTER)
-        time.sleep(1)
 
-        table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_tag_name('tr')
-        self.check_for_row_in_list_table('1: Buy peacock feathers')
+        self.wait_for_row_in_list_table('1: Buy peacock feathers')
 
         # Ainda continua havendo uma caixa de texto convidando-a a acrecentar
         # outro item. Ela insere "Use peacock feathers to make a fly"
@@ -56,14 +62,11 @@ class NewVistorTest(LiveServerTestCase):
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('Use peacock feathers to make a fly')
         inputbox.send_keys(Keys.ENTER)
-        time.sleep(1)
 
         # A página é atualizada novamente e agora mostra os dois items
         # em sua lista
-        table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_tag_name('tr')
-        self.check_for_row_in_list_table('1: Buy peacock feathers')
-        self.check_for_row_in_list_table(
+        self.wait_for_row_in_list_table('1: Buy peacock feathers')
+        self.wait_for_row_in_list_table(
             '2: Use peacock feathers to make a fly'
         )
 
