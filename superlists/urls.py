@@ -20,6 +20,7 @@ from apps.lists import views as lists_views
 
 urlpatterns = [
     url(r'^$', lists_views.index, name='index'),
+    url(r'^lists/new$', lists_views.new_list, name='new_list'),
     url(
         r'^lists/the-only-list-in-the-world/$',
         lists_views.view_list,
