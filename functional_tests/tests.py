@@ -82,7 +82,7 @@ class NewVistorTest(LiveServerTestCase):
 
         # Ela percebe que sua lista tem um URL único
         edith_list_url = self.browser.current_url
-        self.assertRegex(edith_list_url, r'/lists/.+')
+        self.assertRegex(edith_list_url, r'/lists/.+/')
 
         # Agora um novo usuário, Francis, chega ao site
 
@@ -106,7 +106,7 @@ class NewVistorTest(LiveServerTestCase):
 
         # Francis obtém seu próprio URl exclusivo
         francis_list_url = self.browser.current_url
-        self.assertRegex(francis_list_url, r'/list/.+')
+        self.assertRegex(francis_list_url, r'/lists/.+/')
         self.assertNotEqual(francis_list_url, edith_list_url)
 
         # Novamente, não há nenhum sinal da lista de Edith
