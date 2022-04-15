@@ -20,5 +20,10 @@ from apps.lists import views as lists_views
 
 urlpatterns = [
     url(r'^$', lists_views.index, name='index'),
+    url(
+        r'^lists/the-only-list-in-the-world/$',
+        lists_views.view_list,
+        name='view_list'
+    ),
     url(r'^admin/', admin.site.urls),
 ]
