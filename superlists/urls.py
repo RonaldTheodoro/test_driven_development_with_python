@@ -9,5 +9,4 @@ from apps.lists import urls as list_urls
 urlpatterns = [
     url(r'^$', lists_views.index, name='index'),
     url(r'^lists/', include(list_urls)),
-    url(r'^admin/', admin.site.urls),
 ]
